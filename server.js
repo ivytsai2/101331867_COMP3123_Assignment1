@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const userRoutes = require('./routes/users');
 const employeeRoutes = require('./routes/employees');
 const mongoose = require('mongoose');
@@ -7,6 +8,7 @@ const auth = require("./middleware/auth");
 const app = express();
 const SERVER_PORT = 8081;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
