@@ -48,7 +48,7 @@ userRoutes.post('/signup', async (req, res) => {
         }
         res.status(500).send({
             status: false,
-            message: e.message
+            message: "This email has been registered"
         });
     }
 })
