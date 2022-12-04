@@ -25,4 +25,6 @@ app.route('/').get((req, res) => {
 app.use('/api/user', userRoutes);
 app.use('/api/emp', employeeRoutes, auth);
 
-app.listen(process.env.PORT || SERVER_PORT)
+app.listen(process.env.PORT || SERVER_PORT, () => {
+    console.log(`Server running at http://localhost:${SERVER_PORT}/`);
+})
