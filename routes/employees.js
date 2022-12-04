@@ -119,6 +119,18 @@ employeeRoutes.put('/employees/:eid', auth, async (req, res) => {
             message: `Employee Id ${id} is updated`
         });
     } catch (e) {
+        const duplicate = e.code === 11000;
+        if (duplicate) {
+            return res.status(400).send({
+                status: false,
+                message: "This email is already in used"
+            });
+        } else if (isNaN(salary)) {
+            return res.status(400).send({
+                status: false,
+                message: "Salary must be a number"
+            });
+        }
         res.status(500).send({
             status: false,
             message: e.message
