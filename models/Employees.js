@@ -15,7 +15,8 @@ const employeeSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        unique: true,
+        unique: true, 
+        required: true,
         maxLength: 50,
         trim: true
     },
@@ -30,6 +31,7 @@ const employeeSchema = new mongoose.Schema({
     salary: {
         type: Number,
         required: true,
+        min: [0, 'The minimum is zero.'],
         trim: true
     }
 })

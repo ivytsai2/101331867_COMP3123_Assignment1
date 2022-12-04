@@ -8,14 +8,7 @@ const auth = require("../middleware/auth");
 employeeRoutes.get('/employees', auth, async (req, res) => {
     try {
         const employees = await EmployeeModel.find();
-        if (employees.length > 0) {
-            res.status(200).send(employees);
-        } else {
-            res.status(500).send({
-                status: false,
-                message: "No data in employees database"
-            });
-        }
+        res.status(200).send(employees);
     } catch (e) {
         res.status(500).send({
             status: false,
@@ -33,7 +26,7 @@ employeeRoutes.get('/employees', auth, async (req, res) => {
 }*/
 //add new employee
 employeeRoutes.post('/employees', auth, async (req, res) => {
-    const {first_name, last_name, salary} = req.body;
+    const {first_name, last_name, email, salary} = req.body;
     // validate user input
     if (fun.isEmpty(req.body)) {
         return res.status(400).send(fun.emptyContentMsg("employee"))
@@ -46,10 +39,16 @@ employeeRoutes.post('/employees', auth, async (req, res) => {
             message: "Employee added successfully!"
         });
     } catch (e) {
-        if (!(first_name && last_name && salary)){
+        const duplicate = e.code === 11000;
+        if (!(first_name && last_name && email && salary)){
             return res.status(400).send({
                 status: false,
-                message: "Fields first_name, last_name and salary are required"
+                message: "Fields first name, last name, email and salary are required"
+            });
+        } else if(duplicate) {
+            return res.status(400).send({
+                status: false,
+                message: "This email is already in used"
             });
         }
         res.status(500).send({
