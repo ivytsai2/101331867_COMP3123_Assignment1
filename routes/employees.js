@@ -45,10 +45,15 @@ employeeRoutes.post('/employees', auth, async (req, res) => {
                 status: false,
                 message: "Fields first name, last name, email and salary are required"
             });
-        } else if(duplicate) {
+        } else if (duplicate) {
             return res.status(400).send({
                 status: false,
                 message: "This email is already in used"
+            });
+        } else if (isNaN(salary)) {
+            return res.status(400).send({
+                status: false,
+                message: "Salary must be a number"
             });
         }
         res.status(500).send({
