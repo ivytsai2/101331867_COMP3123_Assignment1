@@ -72,8 +72,8 @@ userRoutes.post('/login', async (req, res) => {
             if (await bcrypt.compare(password, user.password)) {
                 // Create token with the username in the payload and expires after 2hrs
                 const jwtKey = "my_secret_key";
-                myToken = jwt.sign(
-                    { user: username },
+                const myToken = await jwt.sign(
+                    { username },
                     jwtKey,
                     { expiresIn: "2h" }
                 );
